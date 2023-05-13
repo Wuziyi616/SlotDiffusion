@@ -102,7 +102,7 @@ def main(params):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Test segmentation on images')
+    parser = argparse.ArgumentParser(description='Test image segmentation')
     parser.add_argument('--params', type=str, required=True)
     parser.add_argument('--weight', type=str, default='', help='load weight')
     parser.add_argument('--bs', type=int, default=-1)

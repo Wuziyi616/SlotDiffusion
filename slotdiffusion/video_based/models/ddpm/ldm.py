@@ -11,7 +11,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from einops import repeat
 
-from .utils import noise_like
+from .utils import noise_like, extract_to
 from .cond_ddpm import CondDDPM
 
 
@@ -25,7 +25,8 @@ class LDM(CondDDPM):
         unet_dict,
         use_ema=True,
         diffusion_dict=dict(
-            pred_target='eps',  # 'eps' or 'x0', predict noise or direct x0
+            pred_target='eps',  # 'eps', 'x0', 'v'
+            z_scale_factor=1.,
             timesteps=1000,
             beta_schedule="linear",
             linear_start=1e-4,
@@ -70,8 +71,14 @@ class LDM(CondDDPM):
         pred = self.forward(x_noisy, t, context=context)
         if self.pred_target == 'eps':
             gt = noise
+        # follow https://arxiv.org/pdf/2202.00512.pdf in predicting v
+        elif self.pred_target == 'v':
+            alpha_t = extract_to(self.sqrt_alphas_bar, t, x0.shape)
+            sigma_t = extract_to(self.sqrt_one_minus_alphas_bar, t, x0.shape)
+            gt = alpha_t * noise - sigma_t * x0
         else:
             gt = x0
+        gt = gt.detach()
         loss_dict = {'denoise_loss': F.mse_loss(pred, gt)}
         return loss_dict
 
@@ -85,10 +92,11 @@ class LDM(CondDDPM):
         """Need to decode latent features to images."""
         log = {}
         img = batch['img']
-        # extract feature
+        # extract features
         x = self.vae.encode(img)  # [B, C, h, w]
         cond = batch[self.cond_stage_key]
         B = x.shape[0]
+        same_noise = kwargs.get('same_noise', False)
 
         # get diffusion row
         if ret_intermed:
@@ -99,7 +107,7 @@ class LDM(CondDDPM):
                         t == self.num_timesteps - 1:
                     t = repeat(torch.tensor([t]), '1 -> b', b=B)
                     t = t.to(self.device).long()
-                    noise = noise_like(x0.shape, x0.device)
+                    noise = noise_like(x0.shape, x0.device, repeat=same_noise)
                     x_noisy = self._sample_xt_from_x0(x0=x0, t=t, noise=noise)
                     diffusion_row.append(self.vae.decode(x_noisy))
             diffusion_row = torch.stack(diffusion_row, dim=0)  # [N, B, C, H,W]

@@ -9,7 +9,8 @@ import torchvision.utils as vutils
 
 from nerv.training import BaseMethod, CosineAnnealingWarmupRestarts
 
-from slotdiffusion.img_based.models import to_rgb_from_tensor, get_lr, cosine_anneal
+from slotdiffusion.img_based.models import to_rgb_from_tensor, get_lr, \
+    cosine_anneal
 from slotdiffusion.img_based.datasets import draw_coco_bbox
 from slotdiffusion.img_based.vis import torch_draw_rgb_mask
 
@@ -185,7 +186,7 @@ class SLATEMethod(SlotBaseMethod):
     def _sample_img(self, model):
         """model is a simple nn.Module, not warpped in e.g. DataParallel."""
         model.eval()
-        model.testing = True  # we only want the slots
+        model.testing = True  # we only want the slots & masks
         dst = self.val_loader.dataset
 
         sampled_idx = self._get_sample_idx(self.params.n_samples, dst)
@@ -331,8 +332,8 @@ class SADiffusionMethod(SlotBaseMethod):
     def _sample_img(self, model):
         """model is a simple nn.Module, not warpped in e.g. DataParallel."""
         model.eval()
+        model.testing = True  # we only want the slots & masks
         dst = self.val_loader.dataset
-        use_ddim = self.params.get('use_ddim', False)
         cls_free_guidance = self.params.get('cls_free_guidance', False)
 
         # 1. sample a batch of images, evaluate recon loss
@@ -365,7 +366,7 @@ class SADiffusionMethod(SlotBaseMethod):
         data_dict = {k: v.to(model.device) for k, v in data_dict.items()}
 
         log_dict = model.log_images(
-            data_dict, use_ddim=use_ddim, cls_free_guidance=cls_free_guidance)
+            data_dict, use_dpm=True, cls_free_guidance=cls_free_guidance)
         '''
             - 'diffusion_row': from x0 (input imgs) to xT (random noise)
             - 'denoise_row': from xT denoises to x0
@@ -383,6 +384,7 @@ class SADiffusionMethod(SlotBaseMethod):
              for k, v in log_dict.items()})
         wandb.log(wandb_dict, step=self.it)
         torch.cuda.empty_cache()
+        model.testing = False
 
     def _log_train(self, out_dict):
         """Log statistics in training to wandb."""

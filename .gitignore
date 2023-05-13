@@ -1,5 +1,7 @@
 vis/
+eval/
 wandb/
+metrics/
 checkpoint/
 checkpoints/
 data/*/
