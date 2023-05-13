@@ -112,9 +112,6 @@ class SlotAttentionParams(BaseParams):
             z_scale_factor=1.,  # 1.235
             timesteps=1000,
             beta_schedule="linear",
-            # the one used in DDPM
-            # linear_start=1e-4,
-            # linear_end=2e-2,
             # the one used in LDM
             linear_start=0.0015,
             linear_end=0.0195,

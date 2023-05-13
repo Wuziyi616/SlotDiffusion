@@ -72,7 +72,7 @@ class SlotAttentionWMask(SlotAttention):
 
 
 class SAViDiffusion(SAVi):
-    """SAVi model that operates on videos."""
+    """SlotDiffusion model on videos."""
 
     def __init__(
             self,

@@ -71,7 +71,7 @@ class SlotAttentionWMask(SlotAttention):
 
 
 class SADiffusion(SA):
-    """SA model that operates on images."""
+    """SlotDiffusion model on images."""
 
     def __init__(
             self,
