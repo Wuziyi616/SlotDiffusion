@@ -4,7 +4,7 @@ import importlib
 import argparse
 
 import numpy as np
-import matplotlib.pyplot as plt
+from PIL import Image
 
 import torch
 
@@ -73,15 +73,20 @@ def save_results(data_idx, pred_imgs, gt_imgs, metrics_dict, save_dir):
     os.makedirs(os.path.dirname(metric_fn), exist_ok=True)
     dump_obj(metrics_dict, metric_fn)
     # images
-    # not saving `gt_imgs` as we assume they have been saved in `test_recon.py`
     pred_imgs = to_rgb_from_tensor(pred_imgs).cpu().numpy()  # [B, 3, H, W]
     pred_imgs = np.round(pred_imgs * 255.).astype(np.uint8)
+    gt_imgs = to_rgb_from_tensor(gt_imgs).cpu().numpy()  # [B, 3, H, W]
+    gt_imgs = np.round(gt_imgs * 255.).astype(np.uint8)
     pred_dir = os.path.join(save_dir, 'comp_imgs')
+    gt_dir = os.path.join(save_dir, 'gt_imgs')
     os.makedirs(pred_dir, exist_ok=True)
-    for i, pred in enumerate(pred_imgs):
+    os.makedirs(gt_dir, exist_ok=True)
+    for i, (pred, gt) in enumerate(zip(pred_imgs, gt_imgs)):
         idx = data_idx[i]
         pred = pred.transpose(1, 2, 0)
-        plt.imsave(os.path.join(pred_dir, f'{idx}.png'), pred)
+        gt = gt.transpose(1, 2, 0)
+        Image.fromarray(pred).save(os.path.join(pred_dir, f'{idx}.png'))
+        Image.fromarray(gt).save(os.path.join(gt_dir, f'{idx}.png'))
 
 
 @torch.no_grad()

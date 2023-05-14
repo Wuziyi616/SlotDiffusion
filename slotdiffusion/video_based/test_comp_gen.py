@@ -4,6 +4,7 @@ import importlib
 import argparse
 
 import numpy as np
+from PIL import Image
 import matplotlib.pyplot as plt
 
 import torch
@@ -81,17 +82,22 @@ def save_results(data_idx, pred_imgs, gt_imgs, metrics_dict, save_dir):
     os.makedirs(os.path.dirname(metric_fn), exist_ok=True)
     dump_obj(metrics_dict, metric_fn)
     # videos to frames
-    # not saving `gt_imgs` as we assume they have been saved in `test_recon.py`
     pred_imgs = to_rgb_from_tensor(pred_imgs).cpu().numpy()  # [B, T, 3, H, W]
     pred_imgs = np.round(pred_imgs * 255.).astype(np.uint8)
-    for i, pred_vid in enumerate(pred_imgs):
+    gt_imgs = to_rgb_from_tensor(gt_imgs).cpu().numpy()  # [B, T, 3, H, W]
+    gt_imgs = np.round(gt_imgs * 255.).astype(np.uint8)
+    for i, (pred_vid, gt_vid) in enumerate(zip(pred_imgs, gt_imgs)):
         idx = data_idx[i]
         # [T, 3, H, W] -> [T, H, W, 3]
         pred_vid = pred_vid.transpose(0, 2, 3, 1)
+        gt_vid = gt_vid.transpose(0, 2, 3, 1)
         pred_dir = os.path.join(save_dir, 'comp_vids', str(idx))
+        gt_dir = os.path.join(save_dir, 'gt_vids', str(idx))
         os.makedirs(pred_dir, exist_ok=True)
-        for t, pred in enumerate(pred_vid):
-            plt.imsave(os.path.join(pred_dir, f'{t}.png'), pred)
+        os.makedirs(gt_dir, exist_ok=True)
+        for t, (pred, gt) in enumerate(zip(pred_vid, gt_vid)):
+            Image.fromarray(pred).save(os.path.join(pred_dir, f'{t}.png'))
+            Image.fromarray(gt).save(os.path.join(gt_dir, f'{t}.png'))
 
 
 @torch.no_grad()

@@ -2,14 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-# for relative parent folder imports
-import sys
-import os
-
-current = os.path.dirname(os.path.realpath(__file__))
-parent = os.path.dirname(os.path.dirname(current))
-sys.path.append(parent)
-
 from nerv.training import BaseModel
 
 
@@ -313,7 +305,7 @@ class SlotFormer(BaseModel):
             slots_loss = slots_loss * w[None, :, None, None]
 
         # only compute loss on valid slots/imgs
-        # e.g. in PHYRE, some videos are short, so we pad zero slots
+        # e.g. if some videos are short, so we pad zero slots
         vid_len = data_dict.get('vid_len', None)
         trunc_loss = False
         if (vid_len is not None) and \

@@ -332,7 +332,7 @@ class PhysionSlotsLabelDataset(PhysionSlotsDataset):
             - data_idx: int
             - task_idx: int
             - img: [T, 3, H, W]
-            - slots: [T, N, C] slots extracted from OBJ3D video frames
+            - slots: [T, N, C] slots extracted from Physion video frames
             - label: 1: success, 0: fail
         """
         file_idx = idx

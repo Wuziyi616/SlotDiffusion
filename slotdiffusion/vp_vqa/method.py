@@ -89,12 +89,7 @@ class SlotBaseMethod(BaseMethod):
 
     @property
     def vis_fps(self):
-        # PHYRE
-        if 'phyre' in self.params.dataset.lower():
-            return 4
-        # OBJ3D, CLEVRER, Physion
-        else:
-            return 8
+        return 8
 
 
 class SAViMethod(SlotBaseMethod):
@@ -102,14 +97,6 @@ class SAViMethod(SlotBaseMethod):
 
     def _make_video_grid(self, imgs, recon_combined, recons, masks):
         """Make a video of grid images showing slot decomposition."""
-        # pause the video on the 1st frame in PHYRE
-        if 'phyre' in self.params.dataset.lower():
-            imgs, recon_combined, recons, masks = [
-                self._pause_frame(x)
-                for x in [imgs, recon_combined, recons, masks]
-            ]
-        # in PHYRE if the background is black, we scale the mask differently
-        scale = 0. if self.params.get('reverse_color', False) else 1.
         # combine images in a way so we can display all outputs in one grid
         # output rescaled to be between 0 and 1
         out = to_rgb_from_tensor(
@@ -117,7 +104,7 @@ class SAViMethod(SlotBaseMethod):
                 [
                     imgs.unsqueeze(1),  # original images
                     recon_combined.unsqueeze(1),  # reconstructions
-                    recons * masks + (1. - masks) * scale,  # each slot
+                    recons * masks + (1. - masks),  # each slot
                 ],
                 dim=1,
             ))  # [T, num_slots+2, 3, H, W]
@@ -126,7 +113,7 @@ class SAViMethod(SlotBaseMethod):
             vutils.make_grid(
                 out[i].cpu(),
                 nrow=out.shape[1],
-                pad_value=1. - scale,
+                pad_value=0.,
             ) for i in range(recons.shape[0])
         ])  # [T, 3, H, (num_slots+2)*W]
         return save_video
@@ -141,7 +128,7 @@ class SAViMethod(SlotBaseMethod):
         for i in sampled_idx:
             data_dict = dst.get_video(i.item())
             video, label = data_dict['video'].float().to(self.device), \
-                data_dict.get('label', None)  # label for PHYRE
+                data_dict.get('label', None)
             in_dict = {'img': video[None]}
             out_dict = model(in_dict)
             out_dict = {k: v[0] for k, v in out_dict.items()}

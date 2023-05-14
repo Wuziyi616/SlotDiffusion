@@ -22,7 +22,7 @@ class SlotAttentionParams(BaseParams):
 
     # data settings
     dataset = 'celeba'
-    data_root = './data/celeba_pytorch'
+    data_root = './data/CelebA'
     train_batch_size = 64 // gpus
     val_batch_size = train_batch_size * 2
     num_workers = 8

@@ -4,7 +4,7 @@ import importlib
 import argparse
 
 import numpy as np
-import matplotlib.pyplot as plt
+from PIL import Image
 
 import torch
 import lpips
@@ -110,8 +110,8 @@ def save_results(data_idx, pred_imgs, gt_imgs, metrics_dict, save_dir):
         os.makedirs(pred_dir, exist_ok=True)
         os.makedirs(gt_dir, exist_ok=True)
         for t, (pred, gt) in enumerate(zip(pred_vid, gt_vid)):
-            plt.imsave(os.path.join(pred_dir, f'{t}.png'), pred)
-            plt.imsave(os.path.join(gt_dir, f'{t}.png'), gt)
+            Image.fromarray(pred).save(os.path.join(pred_dir, f'{t}.png'))
+            Image.fromarray(gt).save(os.path.join(gt_dir, f'{t}.png'))
 
 
 @torch.no_grad()
