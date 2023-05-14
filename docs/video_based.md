@@ -36,10 +36,11 @@ Alternatively, we provide **pre-trained SlotDiffusion weight** as `pretrained/sa
 
 ### Evaluate on Object Segmentation
 
-**Go to `slotdiffusion/video_based/`**, and then run the following command to evaluate the object segmentation performance:
+Run the following command to evaluate the object segmentation performance:
 
 ```
-python test_seg.py --params configs/savi_ldm/savi_ldm_movie_params-res128.py \
+python slotdiffusion/video_based/test_seg.py \
+    --params slotdiffusion/video_based/configs/savi_ldm/savi_ldm_movie_params-res128.py \
     --weight $WEIGHT \
     --bs 32  \ # optional, change to desired value
     --seq_len -1  # i.e. full video length, can be changed
@@ -47,11 +48,12 @@ python test_seg.py --params configs/savi_ldm/savi_ldm_movie_params-res128.py \
 
 ### Evaluate on Video Reconstruction
 
-**Go to `slotdiffusion/video_based/`**, and then run the following command to evaluate the video reconstruction performance (we support DDP testing as reconstruction is slow, especially for STEVE):
+Run the following command to evaluate the video reconstruction performance (we support DDP testing as reconstruction is slow, especially for STEVE):
 
 ```
 python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501 \
-    test_recon.py --params configs/savi_ldm/savi_ldm_movie_params-res128.py \
+    slotdiffusion/video_based/test_recon.py \
+    --params slotdiffusion/video_based/configs/savi_ldm/savi_ldm_movie_params-res128.py \
     --weight $WEIGHT \
     --bs 1
 ```
@@ -60,11 +62,12 @@ python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501
 
 ### Evaluation on Compositional Generation
 
-**Go to `slotdiffusion/video_based/`**, and then run the following command to evaluate the image reconstruction performance (DDP to speed up testing as well):
+Run the following command to evaluate the image reconstruction performance (DDP to speed up testing as well):
 
 ```
 python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501 \
-    test_comp_gen.py --params configs/savi_ldm/savi_ldm_movie_params-res128.py \
+    slotdiffusion/video_based/test_comp_gen.py \
+    --params slotdiffusion/video_based/configs/savi_ldm/savi_ldm_movie_params-res128.py \
     --weight $WEIGHT \
     --bs 1
 ```

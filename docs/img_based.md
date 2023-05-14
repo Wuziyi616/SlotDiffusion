@@ -40,32 +40,35 @@ Alternatively, we provide **pre-trained SlotDiffusion weight** as `pretrained/sa
 
 ### Evaluate on Object Segmentation
 
-**Go to `slotdiffusion/img_based/`**, and then run the following command to evaluate the object segmentation performance:
+Run the following command to evaluate the object segmentation performance:
 
 ```
-python test_seg.py --params configs/sa_ldm/sa_ldm_clevrtex_params-res128.py \
+python slotdiffusion/img_based/test_seg.py \
+    --params slotdiffusion/img_based/configs/sa_ldm/sa_ldm_clevrtex_params-res128.py \
     --weight $WEIGHT \
     --bs 32  # optional, change to desired value
 ```
 
 ### Evaluate on Image Reconstruction
 
-**Go to `slotdiffusion/img_based/`**, and then run the following command to evaluate the image reconstruction performance (we support DDP testing as reconstruction is slow, especially for SLATE):
+Run the following command to evaluate the image reconstruction performance (we support DDP testing as reconstruction is slow, especially for SLATE):
 
 ```
 python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501 \
-    test_recon.py --params configs/sa_ldm/sa_ldm_clevrtex_params-res128.py \
+    slotdiffusion/img_based/test_recon.py \
+    --params slotdiffusion/img_based/configs/sa_ldm/sa_ldm_clevrtex_params-res128.py \
     --weight $WEIGHT \
     --bs 32  # optional, change to desired value
 ```
 
 ### Evaluation on Compositional Generation
 
-**Go to `slotdiffusion/img_based/`**, and then run the following command to evaluate the image reconstruction performance (DDP to speed up testing as well):
+Run the following command to evaluate the image reconstruction performance (DDP to speed up testing as well):
 
 ```
 python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501 \
-    test_comp_gen.py --params configs/sa_ldm/sa_ldm_clevrtex_params-res128.py \
+    slotdiffusion/img_based/test_comp_gen.py \
+    --params slotdiffusion/img_based/configs/sa_ldm/sa_ldm_clevrtex_params-res128.py \
     --weight $WEIGHT \
     --bs 32  # optional, change to desired value
 ```

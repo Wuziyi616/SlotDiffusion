@@ -133,7 +133,7 @@ data/
 •   •   •
 │   │   ├── Support/
 │   │   └── labels.csv  # test subset labels
-│   ├── videos/
+│   ├── PhysionTrainMP4s/
 │   │   ├── Collide_readout_MP4s/  # 8 scenarios x 2 subsets (training, readout)
 │   │   ├── Collide_training_MP4s/
 •   •   •

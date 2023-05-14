@@ -8,10 +8,11 @@ conda activate slotdiffusion
 ```
 
 Then install PyTorch which is compatible with your cuda setting.
-In our experiments, we use PyTorch 1.10.1 and CUDA 11.3 (PyTorch 1.12.1 + CUDA 11.3 is also tested, the CUDA version is fine as long as it meets the requirement [here](https://pytorch.org/get-started/previous-versions/)):
+In our experiments, we use PyTorch 1.10.1 and CUDA 11.3 (PyTorch 1.12.1 + CUDA 11.3 is also tested, the CUDA version is fine as long as it meets the requirement [here](https://pytorch.org/get-started/previous-versions/). PyTorch 2.0 is not tested but could also be compatible):
 
 ```
 conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio==0.10.1 cudatoolkit=11.3 -c pytorch -c conda-forge
+pip install pytorch-lightning==1.6.2 torchmetrics==0.8.0
 ```
 
 The codebase heavily relies on [nerv](https://github.com/Wuziyi616/nerv) for project template and Trainer.
@@ -28,16 +29,15 @@ This will automatically install packages necessary for the project.
 Additional packages are listed as follows:
 
 ```
-pip install pycocotools scikit-image lpips pytorch-fid
-pip install einops==0.3.2  # other versions might also work
-pip install transformers==4.27.4  # other versions might also work
+pip install pycocotools scikit-image lpips pytorch-fid einops chardet
+pip install transformers
 ```
 
 Finally, clone and install this project by:
 
 ```
 cd ..  # move out from nerv/
-git clone git@github.com:pairlab/SlotDiffusion.git
+git clone git@github.com:Wuziyi616/SlotDiffusion.git
 cd SlotDiffusion
 pip install -e .
 ```

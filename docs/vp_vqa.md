@@ -13,11 +13,11 @@ As described in [video_based.md](./video_based.md), SlotDiffusion training consi
 We skip detailed training steps and assume you are using our **pre-trained weight** as `pretrained/savi_ldm_physion_params-res128.pth`.
 
 Then, we'll need to extract slots and save them.
-Please **go to `slotdiffusion/video_based/`** and run [extract_slots.py](../slotdiffusion/video_based/extract_slots.py):
+Please run [extract_slots.py](../slotdiffusion/video_based/extract_slots.py):
 
 ```
-python extract_slots.py \
-    --params configs/savi_ldm/savi_ldm_physion_params-res128.py \
+python slotdiffusion/video_based/extract_slots.py \
+    --params slotdiffusion/video_based/configs/savi_ldm/savi_ldm_physion_params-res128.py \
     --weight $WEIGHT \
     --subset $SUBSET \
     --save_path $SAVE_PATH  # e.g. './data/Physion/slots/$SUBSET_slots.pkl'
@@ -40,11 +40,12 @@ Alternatively, we provide **pre-trained SlotFormer weight** as `pretrained/savi_
 
 ### Test Video Prediction
 
-**Go to `slotdiffusion/vp_vqa/`** and run the following command to evaluate the video prediction performance:
+Run the following command to evaluate the video prediction performance:
 
 ```
 python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501 \
-    test_vp.py --params configs/ldmslotformer_physion_params-res128.py \
+    slotdiffusion/vp_vqa/test_vp.py \
+    --params slotdiffusion/vp_vqa/configs/ldmslotformer_physion_params-res128.py \
     --weight $WEIGHT \
     --bs 1
 ```
@@ -62,11 +63,11 @@ For the VQA task, we follow the official benchmark protocol as:
 
 ### Unroll SlotFormer for VQA task
 
-To unroll videos, please **go to `slotdiffusion/vp_vqa/`** and run [rollout_physion_slots.py](../slotdiffusion/vp_vqa/rollout_physion_slots.py):
+To unroll videos, please run [rollout_physion_slots.py](../slotdiffusion/vp_vqa/rollout_physion_slots.py):
 
 ```
-python rollout_physion_slots.py \
-    --params configs/ldmslotformer_physion_params-res128.py \
+python slotdiffusion/vp_vqa/rollout_physion_slots.py \
+    --params slotdiffusion/vp_vqa/configs/ldmslotformer_physion_params-res128.py \
     --weight $WEIGHT \
     --subset $SUBSET \
     --save_path $SAVE_PATH  # e.g. './data/Physion/slots/rollout_$SUBSET_slots.pkl'
@@ -90,11 +91,11 @@ This will train a readout model that takes in slots extracted from a video, and 
 ### Evaluate VQA Result
 
 Finally, we can evaluate the trained readout model on rollout slots in the `test` subset, which is the number we report in the paper.
-To do this, please **go to `slotdiffusion/vp_vqa/`** and run [test_physion_vqa.py](../slotdiffusion/vp_vqa/test_physion_vqa.py):
+To do this, please run [test_physion_vqa.py](../slotdiffusion/vp_vqa/test_physion_vqa.py):
 
 ```
-python test_physion_vqa.py \
-    --params configs/readout_physion_params.py \
+python slotdiffusion/vp_vqa/test_physion_vqa.py \
+    --params slotdiffusion/vp_vqa/configs/readout_physion_params.py \
     --weight $WEIGHT
 ```
 
