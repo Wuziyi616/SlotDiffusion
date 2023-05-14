@@ -5,17 +5,15 @@ import argparse
 
 import numpy as np
 from PIL import Image
-import matplotlib.pyplot as plt
 
 import torch
 
 from nerv.training import BaseDataModule
-from nerv.utils import load_obj, dump_obj, convert4save
+from nerv.utils import load_obj, dump_obj, save_video
 
 from models import build_model, to_rgb_from_tensor
 from datasets import build_dataset
 from method import build_method
-from vis import save_video
 
 
 @torch.no_grad()
@@ -111,7 +109,6 @@ def save_gen_imgs(model, data_dict, model_type, save_dir):
     data_idx = data_dict['data_idx']  # [B]
     for i, pred in enumerate(pred_imgs):
         idx = data_idx[i].cpu().item()
-        pred = convert4save(pred)
         save_video(pred, os.path.join(save_dir, f'{idx}_comp.mp4'), fps=8)
     # exit program when saving enough many samples
     if len(os.listdir(save_dir)) > 200:

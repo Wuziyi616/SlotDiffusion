@@ -3,6 +3,7 @@ from torch import nn
 
 
 class LitEma(nn.Module):
+    """EMA wrapper for a `torch.nn.Module` instance."""
 
     def __init__(self, model, decay=0.9999, use_num_upates=True):
         super().__init__()

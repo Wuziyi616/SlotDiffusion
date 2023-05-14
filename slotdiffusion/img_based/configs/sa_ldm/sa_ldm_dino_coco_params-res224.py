@@ -2,7 +2,7 @@ from nerv.training import BaseParams
 
 
 class SlotAttentionParams(BaseParams):
-    project = 'SlotAttention-Diffusion'
+    project = 'SlotDiffusion'
 
     # training settings
     gpus = 1

@@ -148,6 +148,7 @@ class Bottleneck(nn.Module):
 
 
 class ResNet(nn.Module):
+    """Modified ResNet with smaller down-sampling ratio, from SAVi."""
 
     def __init__(
         self,
@@ -184,7 +185,7 @@ class ResNet(nn.Module):
                                  replace_stride_with_dilation))
         self.groups = groups
         self.base_width = width_per_group
-        if self.small_inputs:
+        if self.small_inputs:  # use smaller kernel & stride
             self.conv1 = nn.Conv2d(
                 3,
                 self.inplanes,
@@ -229,6 +230,8 @@ class ResNet(nn.Module):
                 stride=2,
                 dilate=replace_stride_with_dilation[2],
             )
+
+        # we want the feature map
         # self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         # self.fc = nn.Linear(512 * block.expansion, num_classes)
 
@@ -301,6 +304,7 @@ class ResNet(nn.Module):
         if self.use_layer4:
             x = self.layer4(x)
 
+        # we want the feature map
         # x = self.avgpool(x)
         # x = torch.flatten(x, 1)
         # x = self.fc(x)

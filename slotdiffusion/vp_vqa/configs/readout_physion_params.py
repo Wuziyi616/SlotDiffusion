@@ -2,7 +2,7 @@ from nerv.training import BaseParams
 
 
 class SlotAttentionParams(BaseParams):
-    project = 'SlotAttention-Diffusion'
+    project = 'SlotDiffusion'
 
     # training settings
     # the training of this linear readout model is very fast

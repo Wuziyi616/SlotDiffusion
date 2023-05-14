@@ -11,6 +11,20 @@ _[arXiv'23]() |
 [arXiv]() |
 [Project page](https://slotdiffusion.github.io/)_
 
+<table style="width: 50%;">
+  <tr>
+    <th style="width: 100%;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Video &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT Seg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Our Unsup Seg </th>
+  </tr>
+  <tr>
+    <td><img src="./src/MOVi-D-seg-578.gif" width="100%"></td>
+  </tr>
+  <tr>
+    <td><img src="./src/MOVi-E-seg-31.gif" width="100%"></td>
+  </tr>
+</table>
+
+**Slot-based Image Editing**
+
 <img src="./src/CLEVRTex-edit.png"  width="70%">
 
 ## Introduction
@@ -18,14 +32,14 @@ _[arXiv'23]() |
 This is the official PyTorch implementation for paper: [SlotDiffusion: Unsupervised Object-Centric Learning with Diffusion Models]().
 The code contains:
 
--   SOTA unsupervised object-centric models, Slot Attention, SAVi, STEVE, and **SlotDiffusion**
--   Object segmentation, image/video reconstruction, compositional generation on 6 datasets
+-   SOTA unsupervised object-centric models, Slot Attention, SAVi, SLATE, STEVE, and **SlotDiffusion**
+-   Unsupervised object segmentation, image/video reconstruction, compositional generation on 6 datasets
 -   Video prediction and VQA on Physion dataset
 -   Scale up to real-world datasets: PASCAL VOC and COCO
 
 ## Update
 
--   2023.5.14: Initial code release!
+-   2023.5.24: Initial code release!
 
 ## Installation
 
@@ -60,7 +74,7 @@ Please cite our paper if you find it useful in your research:
 
 ## Acknowledgement
 
-We thank the authors of [Slot-Attention](https://github.com/google-research/google-research/tree/master/slot_attention), [slot_attention.pytorch](https://github.com/untitled-ai/slot_attention), [SAVi](https://github.com/google-research/slot-attention-video/), [SLATE](https://github.com/singhgautam/slate), [STEVE](https://github.com/singhgautam/steve), [DINOSAUR](https://github.com/amazon-science/object-centric-learning-framework), [MaskContrast](https://github.com/wvangansbeke/Unsupervised-Semantic-Segmentation) and [SlotFormer](https://github.com/Wuziyi616/SlotFormer) for opening source their wonderful works.
+We thank the authors of [Slot Attention](https://github.com/google-research/google-research/tree/master/slot_attention), [slot_attention.pytorch](https://github.com/untitled-ai/slot_attention), [SAVi](https://github.com/google-research/slot-attention-video/), [SLATE](https://github.com/singhgautam/slate), [STEVE](https://github.com/singhgautam/steve), [Latent Diffusion Models](https://github.com/CompVis/latent-diffusion), [DPM-Solver](https://github.com/LuChengTHU/dpm-solver), [DINOSAUR](https://github.com/amazon-science/object-centric-learning-framework), [MaskContrast](https://github.com/wvangansbeke/Unsupervised-Semantic-Segmentation) and [SlotFormer](https://github.com/Wuziyi616/SlotFormer) for opening source their wonderful works.
 
 ## License
 

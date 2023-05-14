@@ -4,19 +4,18 @@ import importlib
 import argparse
 
 import numpy as np
-import matplotlib.pyplot as plt
+from PIL import Image
 
 import torch
 import lpips
 
 from nerv.training import BaseDataModule
-from nerv.utils import load_obj, dump_obj, convert4save
+from nerv.utils import load_obj, dump_obj, save_video
 
 from models import build_model, to_rgb_from_tensor
 from models import mse_metric, psnr_metric, ssim_metric, perceptual_dist
 from datasets import build_dataset
 from method import build_method
-from vis import save_video
 
 vgg_fn = lpips.LPIPS(net='vgg')
 vgg_fn = torch.nn.DataParallel(vgg_fn).cuda().eval()
@@ -104,8 +103,8 @@ def save_results(data_idx, pred_imgs, gt_imgs, metrics_dict, save_dir):
         os.makedirs(pred_dir, exist_ok=True)
         os.makedirs(gt_dir, exist_ok=True)
         for t, (pred, gt) in enumerate(zip(pred_vid, gt_vid)):
-            plt.imsave(os.path.join(pred_dir, f'{t}.png'), pred)
-            plt.imsave(os.path.join(gt_dir, f'{t}.png'), gt)
+            Image.fromarray(pred).save(os.path.join(pred_dir, f'{t}.png'))
+            Image.fromarray(gt).save(os.path.join(gt_dir, f'{t}.png'))
 
 
 def save_vp_imgs(model, data_dict, model_type, save_dir):
@@ -122,7 +121,6 @@ def save_vp_imgs(model, data_dict, model_type, save_dir):
     data_idx = data_dict['data_idx']  # [B]
     for i, (pred, gt) in enumerate(zip(pred_imgs, gt_imgs)):
         idx = data_idx[i].cpu().item()
-        pred, gt = convert4save(pred), convert4save(gt)
         save_video(pred, os.path.join(save_dir, f'{idx}_pred.mp4'), fps=8)
         save_video(gt, os.path.join(save_dir, f'{idx}_gt.mp4'), fps=8)
     # exit program when saving enough many samples

@@ -213,7 +213,9 @@ class COCO2017Dataset(Dataset):
 
         # filter annos
         for anno in annos:
-            if 'ignore' in anno.keys():
+            if anno.get('ignore', False):
+                continue
+            if anno.get('iscrowd', False):
                 continue
             if anno['category_id'] not in self.cat_ids:
                 continue
@@ -249,7 +251,9 @@ class COCO2017Dataset(Dataset):
         masks = np.zeros((image_h, image_w), dtype=np.int32)
         inst_overlap_masks = np.zeros_like(masks)  # for overlap check
         for i, anno in enumerate(annos):
-            if 'ignore' in anno.keys():
+            if anno.get('ignore', False):
+                continue
+            if anno.get('iscrowd', False):
                 continue
             if anno['category_id'] not in self.cat_ids:
                 continue
@@ -271,7 +275,9 @@ class COCO2017Dataset(Dataset):
 
         masks = np.zeros((image_h, image_w), dtype=np.int32)
         for i, anno in enumerate(annos):
-            if 'ignore' in anno.keys():
+            if anno.get('ignore', False):
+                continue
+            if anno.get('iscrowd', False):
                 continue
             if anno['category_id'] not in self.cat_ids:
                 continue

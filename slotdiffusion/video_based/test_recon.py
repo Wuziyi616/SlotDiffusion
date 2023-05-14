@@ -10,13 +10,12 @@ import torch
 import lpips
 
 from nerv.training import BaseDataModule
-from nerv.utils import load_obj, dump_obj, convert4save
+from nerv.utils import load_obj, dump_obj, save_video
 
 from models import build_model, to_rgb_from_tensor
 from models import mse_metric, psnr_metric, ssim_metric, perceptual_dist
 from datasets import build_dataset
 from method import build_method
-from vis import save_video
 
 vgg_fn = lpips.LPIPS(net='vgg')
 vgg_fn = torch.nn.DataParallel(vgg_fn).cuda().eval()
@@ -126,7 +125,6 @@ def save_recon_imgs(model, data_dict, model_type, save_dir):
     data_idx = data_dict['data_idx']  # [B]
     for i, (pred, gt) in enumerate(zip(pred_imgs, gt_imgs)):
         idx = data_idx[i].cpu().item()
-        pred, gt = convert4save(pred), convert4save(gt)
         save_video(pred, os.path.join(save_dir, f'{idx}_recon.mp4'), fps=8)
         save_video(gt, os.path.join(save_dir, f'{idx}_gt.mp4'), fps=8)
     # exit program when saving enough many samples

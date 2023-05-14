@@ -2,7 +2,7 @@ from nerv.training import BaseParams
 
 
 class SlotAttentionParams(BaseParams):
-    project = 'SlotAttention-Diffusion'
+    project = 'SlotDiffusion'
 
     # training settings
     gpus = 2
@@ -136,5 +136,4 @@ class SlotAttentionParams(BaseParams):
     denoise_loss_w = 1.  # DM denoising loss weight
 
     # misc.
-    use_ddim = False  # DDIM for faster sampling
     use_dpm = False  # DPM_Solver for faster sampling

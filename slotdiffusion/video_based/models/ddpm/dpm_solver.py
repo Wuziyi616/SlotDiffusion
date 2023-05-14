@@ -417,6 +417,8 @@ def model_wrapper(
 
 
 class DPM_Solver:
+    """DPM-Solver borrowed from https://github.com/LuChengTHU/dpm-solver."""
+
     def __init__(
         self,
         model_fn,

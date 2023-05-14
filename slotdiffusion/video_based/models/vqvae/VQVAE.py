@@ -1,3 +1,5 @@
+import os
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -36,6 +38,7 @@ def temporal_wrapper(func):
 
 
 class VQVAE(BaseModel):
+    """VQ-VAE consisting of Encoder, QuantizationLayer and Decoder."""
 
     def __init__(
         self,
@@ -161,12 +164,15 @@ class VQVAEWrapper(nn.Module):
             use_loss=False,
         ).eval()
         # load pre-trained weight
-        ckp = torch.load(vqvae_ckp_path, map_location='cpu')
-        if 'state_dict' in ckp:
-            ckp = ckp['state_dict']
-        # remove 'loss.' keys
-        ckp = {k: v for k, v in ckp.items() if not k.startswith('loss.')}
-        self.vqvae.load_state_dict(ckp)
+        if os.path.exists(vqvae_ckp_path):
+            ckp = torch.load(vqvae_ckp_path, map_location='cpu')
+            if 'state_dict' in ckp:
+                ckp = ckp['state_dict']
+            # remove 'loss.' keys
+            ckp = {k: v for k, v in ckp.items() if not k.startswith('loss.')}
+            self.vqvae.load_state_dict(ckp)
+        else:
+            print(f'Warning: VQ-VAE weight not found at {vqvae_ckp_path}!!!')
         # freeze the VQVAE
         for p in self.vqvae.parameters():
             p.requires_grad = False

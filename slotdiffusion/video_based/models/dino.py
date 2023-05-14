@@ -1,10 +1,9 @@
-from typing import Any
-
-import torch
-import torch.nn as nn
-from transformers import ViTFeatureExtractor, ViTModel
 from PIL import Image
 import requests
+
+import torch.nn as nn
+
+from transformers import ViTFeatureExtractor, ViTModel
 
 
 def dino(patch_size: int, small_size: bool = True):
@@ -14,14 +13,18 @@ def dino(patch_size: int, small_size: bool = True):
         resolution = 14
     else:
         raise ValueError(f'patch_size {patch_size} not supported')
-    model = DINOEncoder(resolution=resolution, patch_size=patch_size, small_size=small_size)
+    model = DINOEncoder(
+        resolution=resolution, patch_size=patch_size, small_size=small_size)
     return model
 
 
 class DINOEncoder(nn.Module):
     """A wrapper for DINO."""
 
-    def __init__(self, resolution: int, patch_size: int = 8, small_size: bool = True):
+    def __init__(self,
+                 resolution: int,
+                 patch_size: int = 8,
+                 small_size: bool = True):
         super().__init__()
 
         self.resolution = resolution
@@ -32,7 +35,8 @@ class DINOEncoder(nn.Module):
         else:
             self.version = 'b'
 
-        self.dino = ViTModel.from_pretrained(f'facebook/dino-vit{self.version}{patch_size}')
+        self.dino = ViTModel.from_pretrained(
+            f'facebook/dino-vit{self.version}{patch_size}')
         for p in self.dino.parameters():
             p.requires_grad = False
 
@@ -41,7 +45,8 @@ class DINOEncoder(nn.Module):
         out = self.dino(x).last_hidden_state[:, 1:, :]
         # out has shape: [B, H*W, C]
 
-        out = out.reshape(out.shape[0], self.resolution, self.resolution, out.shape[-1])
+        out = out.reshape(out.shape[0], self.resolution, self.resolution,
+                          out.shape[-1])
         # out has shape: [B, H, W, C]
 
         out = out.permute(0, 3, 1, 2)
@@ -59,7 +64,8 @@ if __name__ == '__main__':
     url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
     image = Image.open(requests.get(url, stream=True).raw)
 
-    feature_extractor = ViTFeatureExtractor.from_pretrained('facebook/dino-vits8')
+    feature_extractor = ViTFeatureExtractor.from_pretrained(
+        'facebook/dino-vits8')
     encoder = eval('dino_vits8')()
     inputs = feature_extractor(images=image, return_tensors="pt")
     outputs = encoder(inputs)

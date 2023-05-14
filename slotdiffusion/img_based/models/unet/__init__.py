@@ -1,2 +1,1 @@
-from .unet import UNetModel
-from .utils import *
+from slotdiffusion.video_based.models.unet import UNetModel

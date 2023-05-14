@@ -1,3 +1,5 @@
+import os
+
 import torch
 from torch.nn import functional as F
 
@@ -62,9 +64,11 @@ class SLATE(SADiffusion):
         self.down_factor = self.dvae_dict['down_factor']
         self.dvae = dVAE(vocab_size=self.vocab_size, img_channels=3)
         ckp_path = self.dvae_dict['dvae_ckp_path']
-        assert ckp_path, 'Please provide pretrained dVAE weight'
-        ckp = torch.load(ckp_path, map_location='cpu')
-        self.dvae.load_state_dict(ckp['state_dict'])
+        if os.path.exists(ckp_path):
+            self.dvae.load_weight(ckp_path)
+            print(f'Loading dVAE from {ckp_path}')
+        else:
+            print(f'Warning: dVAE weight not found at {ckp_path}!!!')
         # fix dVAE
         for p in self.dvae.parameters():
             p.requires_grad = False

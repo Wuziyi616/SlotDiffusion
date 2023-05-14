@@ -1,1 +1,1 @@
-from .VQVAE import VQVAE, VQVAEWrapper
+from slotdiffusion.video_based.models.vqvae import VQVAE, VQVAEWrapper
