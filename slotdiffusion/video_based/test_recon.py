@@ -83,7 +83,7 @@ def test_recon_imgs(model, data_dict, model_type, save_dir):
         pred_imgs = recon_imgs(model, gt_imgs, model_type)
         recon_dict = eval_imgs(pred_imgs, gt_imgs)  # np.array
         # save metrics and images for computing FVD later
-        save_results(data_idx, pred_imgs, gt_imgs, recon_dict, save_dir)
+        save_results(data_idx, None, None, recon_dict, save_dir)
     recon_dict = {k: torch.tensor(v) for k, v in recon_dict.items()}
     return recon_dict
 
@@ -94,6 +94,8 @@ def save_results(data_idx, pred_imgs, gt_imgs, metrics_dict, save_dir):
     metric_fn = os.path.join(save_dir, f'metrics/{data_idx[0]}_metric.pkl')
     os.makedirs(os.path.dirname(metric_fn), exist_ok=True)
     dump_obj(metrics_dict, metric_fn)
+    if pred_imgs is None or gt_imgs is None:
+        return
     # save videos as separate frames, required by FVD
     pred_imgs = to_rgb_from_tensor(pred_imgs).cpu().numpy()  # [B, T, 3, H, W]
     pred_imgs = np.round(pred_imgs * 255.).astype(np.uint8)
@@ -186,6 +188,7 @@ if __name__ == "__main__":
     parser.add_argument('--save_video', action='store_true', help='vis videos')
     parser.add_argument('--bs', type=int, default=1)
     parser.add_argument('--local_rank', type=int, default=0)
+    parser.add_argument('--local-rank', type=int, default=0)
     args = parser.parse_args()
 
     if args.params.endswith('.py'):

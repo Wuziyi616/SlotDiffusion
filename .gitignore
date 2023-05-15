@@ -5,6 +5,13 @@ metrics/
 checkpoint/
 checkpoints/
 data/*/
+data/*.pkl
+data/CLEVRTex
+data/CelebA
+data/MOVi
+data/Physion
+data/VOC
+data/COCO
 pretrained/*.pth
 pretrained/*.zip
 .idea/

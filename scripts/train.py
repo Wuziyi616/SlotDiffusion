@@ -31,8 +31,7 @@ def main(params):
 
     # create checkpoint dir
     exp_name = os.path.basename(args.params)
-    ckp_path = os.path.join(f'slotdiffusion/{args.task}/checkpoint/', exp_name,
-                            'models')
+    ckp_path = os.path.join('checkpoint', exp_name, 'models')
     if args.local_rank == 0:
         mkdir_or_exist(os.path.dirname(ckp_path))
 
@@ -90,6 +89,7 @@ if __name__ == "__main__":
     parser.add_argument('--ddp', action='store_true', help='DDP training')
     parser.add_argument('--cudnn', action='store_true', help='cudnn benchmark')
     parser.add_argument('--local_rank', type=int, default=0)
+    parser.add_argument('--local-rank', type=int, default=0)
     args = parser.parse_args()
 
     # import `build_dataset/model/method` function according to `args.task`

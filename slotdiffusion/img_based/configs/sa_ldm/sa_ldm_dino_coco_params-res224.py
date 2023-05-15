@@ -26,7 +26,6 @@ class SlotAttentionParams(BaseParams):
     dataset = 'coco'
     data_root = './data/COCO'
     load_anno = True
-    load_dino = False
     norm_mean = 0.5
     norm_std = 0.5
     train_batch_size = 64 // gpus

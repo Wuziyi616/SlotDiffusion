@@ -145,20 +145,13 @@ class VOC12Dataset(data.Dataset):
 
 def build_voc_dataset(params, val_only=False):
     """Build VOC12 dataset that load images."""
-    load_clip = params.get('load_clip', False)
-    load_dino = params.get('load_dino', False)
-    assert not (load_clip and load_dino), 'Cannot load both CLIP and DINO'
     norm_mean = params.get('norm_mean', 0.5)
     norm_std = params.get('norm_std', 0.5)
-    if norm_mean != 0.5 or norm_std != 0.5:
-        assert not load_clip and not load_dino
     val_transforms = VOCTransforms(
         params.resolution,
         norm_mean=norm_mean,
         norm_std=norm_std,
         val=True,
-        load_clip=load_clip,
-        load_dino=load_dino,
     )
     args = dict(
         data_root=params.data_root,
@@ -176,8 +169,6 @@ def build_voc_dataset(params, val_only=False):
         norm_mean=norm_mean,
         norm_std=norm_std,
         val=False,
-        load_clip=load_clip,
-        load_dino=load_dino,
     )
     train_dataset = VOC12Dataset(**args)
     return train_dataset, val_dataset, VOCCollater()

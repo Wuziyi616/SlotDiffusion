@@ -192,28 +192,7 @@ class SlotFormer(BaseModel):
         self.slot_size = self.slot_dict['slot_size']
 
     def _build_decoder(self):
-        # build the same CNN decoder as in SAVi
-        # StoSAVi._build_decoder(self)
-
-        # load pretrained weight
-        ckp_path = self.dec_dict['dec_ckp_path']
-        assert ckp_path, 'Please provide pretrained decoder weight'
-        w = torch.load(ckp_path, map_location='cpu')['state_dict']
-        dec_w = {k[8:]: v for k, v in w.items() if k.startswith('decoder.')}
-        dec_pe_w = {
-            k[22:]: v
-            for k, v in w.items() if k.startswith('decoder_pos_embedding.')
-        }
-        self.decoder.load_state_dict(dec_w)
-        self.decoder_pos_embedding.load_state_dict(dec_pe_w)
-
-        # freeze decoder
-        for p in self.decoder.parameters():
-            p.requires_grad = False
-        for p in self.decoder_pos_embedding.parameters():
-            p.requires_grad = False
-        self.decoder.eval()
-        self.decoder_pos_embedding.eval()
+        raise NotImplementedError('SlotFormer decoder not implemented.')
 
     def _build_rollouter(self):
         """Predictor as in SAVi to transition slot from time t to t+1."""

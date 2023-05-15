@@ -35,9 +35,9 @@ Other arguments include:
 -   `--ddp`: use DDP multi-GPU training (needed when using `>=2` GPUs)
 -   `--fp16`: enable half-precision training (highly recommended)
 -   `--cudnn`: enable cudnn benchmark (highly recommended)
--   `--local_rank`: required by DDP, don't change it
+-   `--local_rank`/`--local-rank`: required by DDP, don't change it
 
-During training, model checkpoints and visualizations will be saved under `slotdiffusion/$TASK/checkpoint/$PARAMS/`.
+During training, model checkpoints and visualizations will be saved under `./checkpoint/$PARAMS/models/`.
 
 When producing final results (e.g. image/video visualizations), we usually save them under the same directory as the model weight used to generate them.
 

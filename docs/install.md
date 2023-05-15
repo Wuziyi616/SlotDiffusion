@@ -29,8 +29,8 @@ This will automatically install packages necessary for the project.
 Additional packages are listed as follows:
 
 ```
-pip install pycocotools scikit-image lpips pytorch-fid einops chardet
-pip install transformers
+pip install pycocotools scikit-image lpips chardet omegaconf
+pip install pytorch-fid einops transformers
 ```
 
 Finally, clone and install this project by:

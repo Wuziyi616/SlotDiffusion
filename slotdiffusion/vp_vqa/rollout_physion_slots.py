@@ -124,8 +124,7 @@ def process_test_video(model):
 
 def main():
     model = build_model(params)
-    model.load_state_dict(
-        torch.load(args.weight, map_location='cpu')['state_dict'])
+    model.load_weight(args.weight)
     model = torch.nn.DataParallel(model).cuda().eval()
     if 'test' in params.dataset:
         process_test_video(model)
@@ -151,7 +150,7 @@ if __name__ == "__main__":
         args.params = args.params[:-3]
     sys.path.append(os.path.dirname(args.params))
     params = importlib.import_module(os.path.basename(args.params))
-    params = params.SlotFormerParams()
+    params = params.SlotAttentionParams()
     assert 'physion' in args.params and args.subset in ['readout', 'test'], \
         'should only be used to perform readout/testing on Physion dataset'
     assert args.subset in args.save_path, \

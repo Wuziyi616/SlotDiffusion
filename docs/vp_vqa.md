@@ -20,7 +20,7 @@ python slotdiffusion/video_based/extract_slots.py \
     --params slotdiffusion/video_based/configs/savi_ldm/savi_ldm_physion_params-res128.py \
     --weight $WEIGHT \
     --subset $SUBSET \
-    --save_path $SAVE_PATH  # e.g. './data/Physion/slots/$SUBSET_slots.pkl'
+    --save_path $SAVE_PATH  # e.g. './data/Physion/slots/physion_$SUBSET_slots.pkl'
 ```
 
 There are 3 subsets in Physion dataset: `training`, `readout`, `test`.
@@ -47,7 +47,7 @@ python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501
     slotdiffusion/vp_vqa/test_vp.py \
     --params slotdiffusion/vp_vqa/configs/ldmslotformer_physion_params-res128.py \
     --weight $WEIGHT \
-    --bs 1
+    --bs 4
 ```
 
 **Note:** You can add the `--save_video` flag to only save a few videos for visualization, instead of testing over the entire dataset.
@@ -63,14 +63,14 @@ For the VQA task, we follow the official benchmark protocol as:
 
 ### Unroll SlotFormer for VQA task
 
-To unroll videos, please run [rollout_physion_slots.py](../slotdiffusion/vp_vqa/rollout_physion_slots.py):
+To unroll videos, please run [rollout_physion_slots.py](../slotdiffusion/vp_vqa/rollout_physion_slots.py) (DDP to speed up testing; replace with `python slotdiffusion/vp_vqa/rollout_physion_slots.py ...` if DDP not needed):
 
 ```
 python slotdiffusion/vp_vqa/rollout_physion_slots.py \
     --params slotdiffusion/vp_vqa/configs/ldmslotformer_physion_params-res128.py \
     --weight $WEIGHT \
     --subset $SUBSET \
-    --save_path $SAVE_PATH  # e.g. './data/Physion/slots/rollout_$SUBSET_slots.pkl'
+    --save_path $SAVE_PATH  # e.g. './data/Physion/slots/physion_rollout_$SUBSET_slots.pkl'
 ```
 
 This will unroll slots for Physion videos, and save them into a `.pkl` file.

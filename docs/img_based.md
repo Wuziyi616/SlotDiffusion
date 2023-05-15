@@ -46,31 +46,31 @@ Run the following command to evaluate the object segmentation performance:
 python slotdiffusion/img_based/test_seg.py \
     --params slotdiffusion/img_based/configs/sa_ldm/sa_ldm_clevrtex_params-res128.py \
     --weight $WEIGHT \
-    --bs 32  # optional, change to desired value
+    --bs 64  # optional, change to desired value
 ```
 
 ### Evaluate on Image Reconstruction
 
-Run the following command to evaluate the image reconstruction performance (we support DDP testing as reconstruction is slow, especially for SLATE):
+Run the following command to evaluate the image reconstruction performance (we support DDP testing as reconstruction is slow, especially for SLATE; if you do not need DDP, run with `python slotdiffusion/img_based/test_recon.py ...`):
 
 ```
 python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501 \
     slotdiffusion/img_based/test_recon.py \
     --params slotdiffusion/img_based/configs/sa_ldm/sa_ldm_clevrtex_params-res128.py \
     --weight $WEIGHT \
-    --bs 32  # optional, change to desired value
+    --bs 64  # optional, change to desired value
 ```
 
 ### Evaluation on Compositional Generation
 
-Run the following command to evaluate the image reconstruction performance (DDP to speed up testing as well):
+Run the following command to evaluate the image reconstruction performance (DDP to speed up testing as well; replace with `python slotdiffusion/img_based/test_comp_gen.py ...` if DDP not needed):
 
 ```
 python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501 \
     slotdiffusion/img_based/test_comp_gen.py \
     --params slotdiffusion/img_based/configs/sa_ldm/sa_ldm_clevrtex_params-res128.py \
     --weight $WEIGHT \
-    --bs 32  # optional, change to desired value
+    --bs 64  # optional, change to desired value
 ```
 
 **Note:**

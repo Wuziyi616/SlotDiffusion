@@ -1,3 +1,5 @@
+import os
+
 import torch
 import torch.nn.functional as F
 
@@ -108,7 +110,9 @@ class LDMSlotFormer(SlotFormer):
 
     def _build_decoder(self):
         """Build DM decoder."""
-        weight_path = self.dec_dict.pop("dec_ckp_path")
+        # remove this field from the dict first
+        weight_path = self.dec_dict.pop('dec_ckp_path')
+
         # LDM decoder
         if self.dec_dict.get('vae_dict', dict()):
             self.dm_decoder = LDM(**self.dec_dict)
@@ -116,14 +120,16 @@ class LDMSlotFormer(SlotFormer):
         else:
             self.dm_decoder = CondDDPM(**self.dec_dict)
 
-        w = torch.load(weight_path, map_location='cpu')
-
-        if 'state_dict' in w:
-            w = w['state_dict']
-
-        w = {k[11:]: v for k, v in w.items() if 'dm_decoder' in k}
-        self.dm_decoder.load_state_dict(w)
-
+        # load pretrained decoder weight
+        if os.path.exists(weight_path):
+            w = torch.load(weight_path, map_location='cpu')
+            if 'state_dict' in w:
+                w = w['state_dict']
+            w = {k[11:]: v for k, v in w.items() if 'dm_decoder' in k}
+            self.dm_decoder.load_state_dict(w)
+        else:
+            print(f'Warning: DM decoder weight not found at {weight_path}!!!')
+        # freeze the decoder
         for p in self.dm_decoder.parameters():
             p.requires_grad = False
 

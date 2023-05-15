@@ -129,6 +129,7 @@ if __name__ == "__main__":
     parser.add_argument('--weight', type=str, default='', help='load weight')
     parser.add_argument('--bs', type=int, default=-1)
     parser.add_argument('--local_rank', type=int, default=0)
+    parser.add_argument('--local-rank', type=int, default=0)
     args = parser.parse_args()
 
     if args.params.endswith('.py'):

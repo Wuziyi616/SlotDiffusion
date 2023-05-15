@@ -1,5 +1,5 @@
 from .physion import build_physion_dataset, build_physion_slots_dataset, \
-    build_physion_slots_label_dataset, build_physion_tokens_dataset
+    build_physion_slots_label_dataset
 
 
 def build_dataset(params, val_only=False):

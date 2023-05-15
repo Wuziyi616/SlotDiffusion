@@ -64,6 +64,12 @@ Please refer to [data.md](docs/data.md) for dataset downloading and pre-processi
 
 Please see [benchmark.md](docs/benchmark.md) for detailed instructions on how to reproduce our results in the paper.
 
+## Possible Issues
+
+See the troubleshooting section of [nerv](https://github.com/Wuziyi616/nerv#possible-issues) for potential issues.
+
+Please open an issue if you encounter any errors running the code.
+
 ## Citation
 
 Please cite our paper if you find it useful in your research:

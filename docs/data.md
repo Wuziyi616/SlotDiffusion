@@ -89,7 +89,9 @@ Please put the image folders under `./data/COCO/images/`, and the annotations js
 
 ## Summary
 
-**The `data` directory should look like this:**
+-   When you train on some datasets for the first time, the code will cache some index files to be used in later training runs, usually under `datasets/splits/`
+
+-   **The final `data` directory should look like this:**
 
 ```
 data/

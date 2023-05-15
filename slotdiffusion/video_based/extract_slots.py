@@ -133,7 +133,8 @@ if __name__ == "__main__":
     params = params.SlotAttentionParams()
     if 'physion' in args.params:
         params.dataset = f'physion_{args.subset}'
-    assert params.dataset in args.save_path
+    assert params.dataset in args.save_path and args.subset in args.save_path, \
+        'please include `subset` in `save_path` to differentiate slot files'
 
     torch.backends.cudnn.benchmark = True
     main()

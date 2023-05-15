@@ -42,34 +42,34 @@ Run the following command to evaluate the object segmentation performance:
 python slotdiffusion/video_based/test_seg.py \
     --params slotdiffusion/video_based/configs/savi_ldm/savi_ldm_movie_params-res128.py \
     --weight $WEIGHT \
-    --bs 32  \ # optional, change to desired value
+    --bs 16  \ # optional, change to desired value
     --seq_len -1  # i.e. full video length, can be changed
 ```
 
 ### Evaluate on Video Reconstruction
 
-Run the following command to evaluate the video reconstruction performance (we support DDP testing as reconstruction is slow, especially for STEVE):
+Run the following command to evaluate the video reconstruction performance (we support DDP testing as reconstruction is slow, especially for STEVE; replace with `python slotdiffusion/video_based/test_recon.py ...` if DDP not needed):
 
 ```
 python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501 \
     slotdiffusion/video_based/test_recon.py \
     --params slotdiffusion/video_based/configs/savi_ldm/savi_ldm_movie_params-res128.py \
     --weight $WEIGHT \
-    --bs 1
+    --bs 4
 ```
 
 **Note:** You can add the `--save_video` flag to only save a few videos for visualization, instead of testing over the entire dataset.
 
 ### Evaluation on Compositional Generation
 
-Run the following command to evaluate the image reconstruction performance (DDP to speed up testing as well):
+Run the following command to evaluate the image reconstruction performance (DDP to speed up testing as well; replace with `python slotdiffusion/video_based/test_comp_gen.py ...` if DDP not needed):
 
 ```
 python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501 \
     slotdiffusion/video_based/test_comp_gen.py \
     --params slotdiffusion/video_based/configs/savi_ldm/savi_ldm_movie_params-res128.py \
     --weight $WEIGHT \
-    --bs 1
+    --bs 4
 ```
 
 **Note:**
@@ -87,6 +87,7 @@ python -m torch.distributed.launch --nproc_per_node=$NUM_GPU --master_port=29501
         --mirror 1 --gpus 1 --resolution 128 \
         --metrics fvd2048_16f --verbose 1 --use_cache 0
     ```
+    **Note that the `real_data_path` and `fake_data_path` should not have a `/` at the end! I.e. it should be `path/to/vids` instead of `path/to/vids/`**
 -   The reconstructed videos after running `test_recon.py` will be saved under `xxx/eval/recon_vids/`
 -   You can add the `--save_video` flag to only save a few videos for visualization, instead of testing over the entire dataset.
     The videos will be saved under `xxx/vis/`

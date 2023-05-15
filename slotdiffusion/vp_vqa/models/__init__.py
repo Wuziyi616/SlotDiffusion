@@ -2,6 +2,8 @@ from .ldm_slotformer import LDMSlotFormer
 from .readout import PhysionReadout
 
 from .utils import get_lr, to_rgb_from_tensor
+from slotdiffusion.video_based.models import mse_metric, psnr_metric, \
+    ssim_metric, perceptual_dist
 
 
 def build_model(params):

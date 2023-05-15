@@ -26,7 +26,6 @@ class SlotAttentionParams(BaseParams):
     dataset = 'voc'
     data_root = './data/VOC'
     load_anno = True
-    load_dino = False
     norm_mean = 0.5
     norm_std = 0.5
     train_batch_size = 64 // gpus

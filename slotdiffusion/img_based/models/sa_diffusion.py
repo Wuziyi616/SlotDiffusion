@@ -190,10 +190,7 @@ class SADiffusion(SA):
 
         # normal SAVi forward
         assert kwargs == {}
-        if 'dino_img' in data_dict:
-            img = data_dict['dino_img']
-        else:
-            img = data_dict['img']
+        img = data_dict['img']
 
         # encode
         slots, masks = self.encode(img)
