@@ -16,10 +16,11 @@ SlotDiffusion training involves 2 steps: first train a VQ-VAE to discretize imag
 
 ### Train VQ-VAE
 
-Run the following command to train VQ-VAE:
+Run the following command to train VQ-VAE (requires 2 or 4 GPUs):
 
 ```
-python scripts/train.py --task img_based \
+python -m torch.distributed.launch --nproc_per_node=2 --master_port=29501 \
+    scripts/train.py --task img_based \
     --params slotdiffusion/img_based/configs/sa_ldm/vqvae_clevrtex_params-res128.py \
     --fp16 --ddp --cudnn
 ```

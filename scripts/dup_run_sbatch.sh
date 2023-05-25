@@ -5,7 +5,7 @@
 
 #######################################################################
 # An example usage:
-#     GPUS=1 CPUS_PER_GPU=8 MEM_PER_CPU=5 QOS=normal REPEAT=3 ./scripts/dup_run_sbatch.sh \
+#     GPUS=2 CPUS_PER_GPU=8 MEM_PER_CPU=5 QOS=normal REPEAT=3 ./scripts/dup_run_sbatch.sh \
 #       rtx6000 test-sbatch ./scripts/train.py ddp params.py --fp16 --ddp --cudnn
 #######################################################################
 

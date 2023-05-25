@@ -94,7 +94,7 @@ GPUS=1 CPUS_PER_GPU=8 MEM_PER_CPU=5 QOS=normal REPEAT=3 \
     ./scripts/dup_run_sbatch.sh rtx6000 sa_clevrtex_params-res128 \
     scripts/train.py none \
     slotdiffusion/img_based/configs/sa/sa_clevrtex_params-res128.py \
-    --task img_based --fp16 --ddp --cudnn
+    --task img_based --fp16 --cudnn
 ```
 
 ## Image Data

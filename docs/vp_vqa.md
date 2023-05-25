@@ -28,10 +28,11 @@ You need to extract slots from all of them (16G, 7.8G, 1.2G).
 
 ## Train SlotFormer
 
-Train a SlotFormer model on extracted slots by running:
+Train a SlotFormer model on extracted slots by running (requires 2 GPUs):
 
 ```
-python scripts/train.py --task vp_vqa \
+python -m torch.distributed.launch --nproc_per_node=2 --master_port=29501 \
+    scripts/train.py --task vp_vqa \
     --params slotdiffusion/vp_vqa/configs/ldmslotformer_physion_params-res128.py \
     --fp16 --cudnn --ddp
 ```
