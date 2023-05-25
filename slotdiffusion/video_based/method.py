@@ -7,8 +7,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 import torchvision.utils as vutils
 
-from nerv.training import BaseMethod, CosineAnnealingWarmupRestarts, \
-    CosineAnnealingWarmupConstants
+from nerv.training import BaseMethod, CosineAnnealingWarmupRestarts
 
 from slotdiffusion.video_based.models import to_rgb_from_tensor, get_lr, \
     cosine_anneal, make_one_hot
@@ -289,17 +288,6 @@ class STEVEMethod(SlotBaseMethod):
 class SAViDiffusionMethod(SlotBaseMethod):
     """SlotAttention with Diffusion decoder model training method."""
 
-    def _clip_model_grad(self):
-        """Clip model weights' gradients."""
-        sa_clip_grad = self.clip_grad
-        sa_params = self.optimizer.param_groups[0]['params']
-        nn.utils.clip_grad_norm_(sa_params, sa_clip_grad)
-        # usually DM papers don't do gradient clipping
-        dec_clip_grad = self.params.get('dec_clip_grad', sa_clip_grad)
-        if dec_clip_grad > 0.:
-            dec_params = self.optimizer.param_groups[1]['params']
-            nn.utils.clip_grad_norm_(dec_params, dec_clip_grad)
-
     def _configure_optimizers(self):
         """Returns an optimizer, a scheduler and its frequency (step/epoch)."""
         if self.params.optimizer.lower() == 'adam':
@@ -339,28 +327,16 @@ class SAViDiffusionMethod(SlotBaseMethod):
 
         optimizer = opt(params_list)
 
-        if hasattr(self.params, 'decay_epochs'):
-            decay_steps = self.params.decay_epochs * len(self.train_loader)
-            warmup_steps = self.params.warmup_steps_pct * decay_steps
+        total_steps = self.params.max_epochs * len(self.train_loader)
+        warmup_steps = self.params.warmup_steps_pct * total_steps
 
-            scheduler = CosineAnnealingWarmupConstants(
-                optimizer,
-                decay_steps,
-                max_lr=(lr, dec_lr),
-                min_lr=(lr / 10., dec_lr / 10.),
-                warmup_steps=warmup_steps,
-            )
-        else:
-            total_steps = self.params.max_epochs * len(self.train_loader)
-            warmup_steps = self.params.warmup_steps_pct * total_steps
-
-            scheduler = CosineAnnealingWarmupRestarts(
-                optimizer,
-                total_steps,
-                max_lr=(lr, dec_lr),
-                min_lr=0.,
-                warmup_steps=warmup_steps,
-            )
+        scheduler = CosineAnnealingWarmupRestarts(
+            optimizer,
+            total_steps,
+            max_lr=(lr, dec_lr),
+            min_lr=0.,
+            warmup_steps=warmup_steps,
+        )
 
         return optimizer, (scheduler, 'step')
 

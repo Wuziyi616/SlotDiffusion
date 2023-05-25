@@ -18,8 +18,7 @@ class SlotAttentionParams(BaseParams):
     lr = 1e-4
     dec_lr = 2 * lr  # DDPM uses 2e-4, LDM even lower 1e-4
     weight_decay = 0.0
-    clip_grad = 1.  # SA paper doesn't say any clipping?
-    dec_clip_grad = clip_grad  # DM papers don't use gradient clipping usually
+    clip_grad = 1.
     warmup_steps_pct = 0.05
 
     # data settings

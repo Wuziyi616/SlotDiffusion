@@ -17,8 +17,8 @@ class SlotAttentionParams(BaseParams):
     optimizer = 'Adam'
     lr = 1e-4
     weight_decay = 0.0
-    clip_grad = 0.05  # SA paper doesn't say any clipping?
-    warmup_steps_pct = 0.025  # SA paper uses 10k steps over 500k total steps
+    clip_grad = 0.05  # follow SAVi
+    warmup_steps_pct = 0.025  # follow SAVi
 
     # data settings
     movi_level = 'Solid'

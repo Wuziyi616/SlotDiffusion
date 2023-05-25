@@ -7,8 +7,6 @@ class SlotAttentionParams(BaseParams):
     # training settings
     gpus = 1
     max_epochs = 30
-    # decay_epochs = 30
-    # max_epochs = 100
     save_interval = 0.1
     eval_interval = 1
     save_epoch_end = True
@@ -20,8 +18,7 @@ class SlotAttentionParams(BaseParams):
     lr = 1e-4
     dec_lr = 2 * lr  # DDPM uses 2e-4, LDM even lower 1e-4
     weight_decay = 0.0
-    clip_grad = 0.05  # SA paper doesn't say any clipping?
-    dec_clip_grad = clip_grad  # DM papers don't use gradient clipping usually
+    clip_grad = 0.05  # follow SAVi
     warmup_steps_pct = 0.05
 
     # data settings
@@ -39,7 +36,7 @@ class SlotAttentionParams(BaseParams):
 
     # model configs
     model = 'SAViDiffusion'
-    resolution = (128, 128)  # SAVi paper uses 128x128
+    resolution = (128, 128)  # SAVi uses 128x128
     img_ch = 3
     input_frames = n_sample_frames
 
