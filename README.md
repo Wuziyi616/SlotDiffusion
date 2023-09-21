@@ -2,13 +2,13 @@
 
 [**SlotDiffusion: Unsupervised Object-Centric Learning with Diffusion Models**](https://slotdiffusion.github.io/)<br/>
 [Ziyi Wu](https://wuziyi616.github.io/),
-Jingyu Hu,
-Wuyue Lu,
+Jingyu Hu*,
+Wuyue Lu*,
 [Igor Gilitschenski](https://tisl.cs.utoronto.ca/author/igor-gilitschenski/),
 [Animesh Garg](https://animesh.garg.tech/)<br/>
-_[arXiv'23]() |
+_[NeurIPS'23](https://openreview.net/forum?id=ETk6cfS3vk) |
 [GitHub](https://github.com/Wuziyi616/SlotDiffusion) |
-[arXiv]() |
+[arXiv](https://arxiv.org/abs/2305.11281) |
 [Project page](https://slotdiffusion.github.io/)_
 
 <table style="width: 50%;">
@@ -39,6 +39,7 @@ The code contains:
 
 ## Update
 
+-   2023.9.21: The paper is accepted by NeurIPS 2023 as a Spotlight presentation!
 -   2023.5.24: Initial code release!
 
 ## Installation
@@ -75,7 +76,12 @@ Please open an issue if you encounter any errors running the code.
 Please cite our paper if you find it useful in your research:
 
 ```
-
+@article{wu2023slotdiffusion,
+  title={SlotDiffusion: Object-Centric Generative Modeling with Diffusion Models},
+  author={Wu, Ziyi and Hu, Jingyu and Lu, Wuyue and Gilitschenski, Igor and Garg, Animesh},
+  journal={NeurIPS},
+  year={2023}
+}
 ```
 
 ## Acknowledgement
