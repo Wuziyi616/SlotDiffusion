@@ -11,21 +11,29 @@ _[NeurIPS'23](https://openreview.net/forum?id=ETk6cfS3vk) |
 [arXiv](https://arxiv.org/abs/2305.11281) |
 [Project page](https://slotdiffusion.github.io/)_
 
+**Unsupervised Video Object Segmentation**
+
 <table style="width: 50%;">
   <tr>
-    <th style="width: 100%;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Video &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT Seg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Our Unsup Seg </th>
+    <td style="width: 33%; text-align: center;"> Video </td>
+    <td style="width: 33%; text-align: center;"> GT&nbsp;&nbsp;&nbsp;&nbsp; </td>
+    <td style="width: 33%; text-align: center;"> Ours&nbsp;&nbsp; </td>
   </tr>
   <tr>
-    <td><img src="./src/MOVi-D-seg-578.gif" width="100%"></td>
+    <td colspan="3">
+      <img src="./assets/MOVi-D-seg-578.gif" alt="MOVi-D seg" width="100%">
+    </td>
   </tr>
   <tr>
-    <td><img src="./src/MOVi-E-seg-31.gif" width="100%"></td>
+    <td colspan="3">
+      <img src="./assets/MOVi-E-seg-31.gif" alt="MOVi-E seg" width="100%">
+    </td>
   </tr>
 </table>
 
 **Slot-based Image Editing**
 
-<img src="./src/CLEVRTex-edit.png"  width="70%">
+<img src="./assets/CLEVRTex-edit.png"  width="70%">
 
 ## Introduction
 
