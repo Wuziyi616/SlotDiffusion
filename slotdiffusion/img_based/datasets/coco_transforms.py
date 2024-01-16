@@ -239,11 +239,12 @@ class COCOTransforms(object):
         norm_std=0.5,
         val=False,
     ):
+        self.normalize = Normalize(norm_mean, norm_std)
         self.transforms = transforms.Compose([
             RandomHorizontalFlip(0.5 if not val else 0),
             ResizeMinShape(resolution),
             CenterCrop(resolution),
-            Normalize(norm_mean, norm_std),
+            self.normalize,
         ])
         self.resolution = resolution
 
