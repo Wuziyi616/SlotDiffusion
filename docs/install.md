@@ -21,7 +21,7 @@ You can easily install it by:
 ```
 git clone git@github.com:Wuziyi616/nerv.git
 cd nerv
-git checkout v0.2.0  # tested with v0.2.0 release
+git checkout v0.4.0  # tested with v0.4.0 release
 pip install -e .
 ```
 
