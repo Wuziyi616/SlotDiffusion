@@ -62,7 +62,7 @@ class DINOEncoder(nn.Module):
 
 if __name__ == '__main__':
     url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
-    image = Image.open(requests.get(url, stream=True).raw)
+    image = Image.open(requests.get(url, stream=True, timeout=30).raw)
 
     feature_extractor = ViTFeatureExtractor.from_pretrained(
         'facebook/dino-vits8')
